@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="791b57e4-6545-441c-81d1-68d3a1efdb4b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/app.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controllers/a.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/a.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/a.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/a.txt" afterDir="false" />
+    <list default="true" id="791b57e4-6545-441c-81d1-68d3a1efdb4b" name="Changes" comment="setup for start coding">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/b.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/.env.example" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,24 +61,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "setup-branch",
-    "last_opened_file_path": "C:/Users/kfire/Documents/AMIGOS-web-server/src/services",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#2 on setup-branch&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kfire/Documents/AMIGOS-web-server/src/services&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "GitIgnore"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;GitIgnore&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\kfire\Documents\AMIGOS-web-server\src\services" />
@@ -107,11 +101,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1743526628995</updated>
-      <workItem from="1743526630105" duration="2691000" />
+      <workItem from="1743526630105" duration="3818000" />
     </task>
+    <task id="LOCAL‎-00001" summary="setup for start coding">
+      <option name="closed" value="true" />
+      <created>1743530737913</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL‎-00001" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1743530737913</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="setup for start coding" />
+    <option name="LAST_COMMIT_MESSAGE" value="setup for start coding" />
   </component>
 </project>
