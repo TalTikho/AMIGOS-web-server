@@ -1,4 +1,5 @@
 const userService = require('../services/userService');
+const {parseSchemaErrors} = require("../utils/errorUtils");
 
 const createUser = async (req, res) => {
     try {
