@@ -4,8 +4,9 @@ const cors = require("cors");
 const path = require('path');
 const mongoose = require("mongoose");
 
-const {env} = require("custom-env");
-env(process.env.NODE_ENV, "./config");
+const { env } = require("custom-env");
+const NODE_ENV = process.env.NODE_ENV || "local";
+env(NODE_ENV, path.join(__dirname, "../config"));
 
 const appRouter = require('./routes/appRouter');
 
@@ -29,7 +30,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json());
 
 // set app endpoints
-// app.use('/api', appRouter);
+app.use('/api', appRouter);
 
 app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
 
