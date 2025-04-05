@@ -1,17 +1,17 @@
-const chat = require('..models/chat');
+const Chat = require('../models/chatModel');
 
 //creating the chat
-const createChat = async(name_of_the_chat, description, is_group, manager, messages, members, createdAt) => {
+const createChat = async(name, description, is_group, manager, messages, members, createdAt) => {
    
-    const chat = new chat({
-        name_of_the_chat: name_of_the_chat,
+    const chat = new Chat({
+        name: name,
         description: description,
         is_group: is_group,
         manager: manager,
         messages: messages,
-        members: members,
+        members: members || [manager],
         createdAt: createdAt
     })
     return await chat.save();
 }
-module.export = {createChat};
+module.exports = {createChat};

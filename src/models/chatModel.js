@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-const chat = new mongoose.Schema({
-    name_of_the_chat:
+const chatModel = new mongoose.Schema({
+    name:
     { 
         type: String,
-        require: [true, "Name of the chat is required"],
+        required: [true, "Name of the chat is required"],
     }, //name of the chat
     description:
      {
@@ -18,7 +18,7 @@ const chat = new mongoose.Schema({
     manager:
     { 
         type: mongoose.Schema.Types.ObjectId, ref: 'User',
-        require: [true, "Manager of the chat is required"],
+        required: [true, "Manager of the chat is required"],
     }, //the user who created the group
     messages:[
     {
@@ -28,7 +28,7 @@ const chat = new mongoose.Schema({
     members: 
     [{
         type: mongoose.Schema.Types.ObjectId, ref: 'users',
-        default: [this.manager],
+        //default: [this.manager],
     }], //list of the members in the chat
     createdAt: 
     { 
@@ -36,4 +36,4 @@ const chat = new mongoose.Schema({
     }, //date of creation of the chat
 });
 
-module.exports = mongoose.model('chat', chatModle, 'chat');
+module.exports = mongoose.model('chats', chatModel, 'chats');

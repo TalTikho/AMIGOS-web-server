@@ -32,7 +32,8 @@ app.use(express.json());
 // set app endpoints
 app.use('/api', appRouter);
 
-app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
+//app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
 
 console.log(`Running on http://localhost:${process.env.PORT}`);
+//console.log(`${process.env.MONGODB_URI}`);
 app.listen(process.env.PORT);
