@@ -136,6 +136,49 @@ const addMember = async (chatId, userId) => {
     }
 };
 
+// Addin new manager to the managers array
+const addManager = async (chatId, userId) => {
+    // did not get chatId or userId
+    if (!chatId || !userId) {
+        return { success: false, message: 'Missing chatId or userId' };
+    }
+    try {
+        const user = await User.findById(userId);// searching for the user
+        const chat = await Chat.findById(chatId);// searching for the chat
+
+        // check if user or chat exist
+        if (!user) {
+            return { success: false, message: 'User not found' };
+        }
+        
+        if (!chat) {
+            return { success: false, message: 'Chat not found' };
+        }
+
+        // check if already a manager
+        if (chat.manager.some(managerId => managerId.toString() === userId.toString())) {
+            return { success: false, message: 'User already a manager' };
+        }
+
+        // check if user is a member
+        if (!chat.members.some(memberId => memberId.toString() === userId.toString())) {
+            return { success: false, message: 'User must be a member before becoming a manager' };
+        }
+
+        chat.manager.push(userId);
+        await chat.save();
+
+        return { success: true, message: 'Manager added successfully' };
+    } catch (error) {
+         // check if the error is related to invalid ID format
+         if (error.name === 'CastError' || error.kind === 'ObjectId') {
+            return { success: false, message: 'Invalid chatId or userId format' };
+        }
+        console.error("Error in adding Manager:", error);
+        return { success: false, message: 'Failed to add the manager (error)' + error.message };
+    }
+};
+
 // Removing a member
 const removeMember = async (chatId, userId) => {
     // check if chatId or userId are missing
@@ -169,6 +212,42 @@ const removeMember = async (chatId, userId) => {
         
         console.error("Error in removeMember:", error);
         return { success: false, message: 'Failed to remove member: ' + error.message };
+    }
+};
+
+//Remove manager from the array of managers
+const removeManager = async (chatId, userId) => {
+    // check if chatId or userId are missing
+    if (!chatId || !userId) {
+        return { success: false, message: 'Missing chatId or userId' };
+    }
+
+    try {
+        const chat = await Chat.findById(chatId); // searching for the chat
+
+        // did not found the chat
+        if (!chat) {
+            return { success: false, message: 'Chat not found' };
+        }
+
+        // convert objectId to string for comparison
+        if (!chat.manager.some(manager => manager.toString() === userId.toString())) {
+            return { success: false, message: 'User is not a manager' };
+        }
+
+        // filter out the user to be removed
+        chat.manager = chat.manager.filter(manager => manager.toString() !== userId.toString());
+        await chat.save();
+
+        return { success: true, message: 'Manager removed successfully' };
+    } catch (error) {
+        // handle invalid ID format errors
+        if (error.name === 'CastError' || error.kind === 'ObjectId') {
+            return { success: false, message: 'Invalid chatId or userId format' };
+        }
+        
+        console.error("Error in remove Manager:", error);
+        return { success: false, message: 'Failed to remove manager: ' + error.message };
     }
 };
 
@@ -252,7 +331,9 @@ module.exports = {
     getChatById,
     updateChat,
     addMember,
+    addManager,
     removeMember,
+    removeManager,
     leaveChat,
     deleteChat
 };

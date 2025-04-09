@@ -16,11 +16,18 @@ router.route('/')
 
 router.route('/:chatId')
     .get(authUser, chatController.getChatById);
+
 router.route('/:chatId/update')
     .put(authUser, chatController.updateChat);
 
 router.route('/:chatId/add-member/:userId')
     .post(authUser, chatController.addMember);
+
+router.route('/:chatId/add-manager/:userId')
+    .post(authUser, chatController.addManager);
+
+router.route('/:chatId/remove-manager/:userId')
+    .delete(authUser, chatController.removeManager);
 
 router.route('/:chatId/remove-member/:userId')
     .delete(authUser, chatController.removeMember);

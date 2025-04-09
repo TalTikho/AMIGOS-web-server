@@ -32,7 +32,7 @@ const createChat = async (req, res) => {
             req.body.name,
             req.body.description,
             req.body.is_group,
-            req.headers.user_id, // I dont know if needed it, will replace the manager
+            req.body.manager, // I dont know if needed it, will replace the manager
             req.body.messages,
             req.body.members,
             req.body.createdAt,
@@ -98,6 +98,21 @@ const addMember = async (req, res) => {
     }
 };
 
+//Adding new manager to the manager array
+const addManager = async (req, res) => {
+    try {
+        const result = await chatService.addManager(req.params.chatId, req.params.userId);// adding new member to the chat
+
+        if (!result.success) {
+            return res.status(400).json({ error: result.message })// couldnt add
+        };
+
+        return res.status(200).json();
+    } catch (err) {
+        return res.status(404).json({ error: parseSchemaErrors(err) });
+    }
+};
+
 // Removing a member from the chat
 const removeMember = async (req, res) => {
     try {
@@ -112,6 +127,21 @@ const removeMember = async (req, res) => {
         return res.status(404).json({ error: parseSchemaErrors(err) });
     }
 };
+
+// Remove manager
+const removeManager = async (req, res) => {
+    try {
+        const result = await chatService.removeManager(req.params.chatId, req.params.userId);// removing a member from the chat
+
+        if (!result.success) {
+            return res.status(404).json({ error: result.message })// couldnt remove
+        };
+
+        return res.status(200).json();
+    } catch (err) {
+        return res.status(404).json({ error: parseSchemaErrors(err) });
+    }
+}; 
 
 // Leaving a chat
 const leaveChat = async (req, res) => {
@@ -150,7 +180,9 @@ module.exports = {
     getChatById,
     updateChat,
     addMember,
+    addManager, 
     removeMember,
+    removeManager,
     leaveChat,
     deleteChat
 };

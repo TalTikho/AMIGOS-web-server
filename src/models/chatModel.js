@@ -15,11 +15,12 @@ const chatModel = new mongoose.Schema({
         type: Boolean,
         default: false,
     }, //tells if the chat is a group or a regular chat false for chat, true for group
-    manager:
+    manager:[
     { 
         type: mongoose.Schema.Types.ObjectId, ref: 'User',
         required: [true, "Manager of the chat is required"],
-    }, //the user who created the group
+        default: [] // for array of managers in a group
+    }], //the user who created the group
     messages:[
     {
         type: mongoose.Schema.Types.ObjectId, ref: 'message',// need to change: from message to Message
