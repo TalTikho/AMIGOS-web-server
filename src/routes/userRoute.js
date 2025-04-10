@@ -9,4 +9,19 @@ router.route('/')
 router.route('/add-contact/:contactId')
     .post(authUser, userController.addContact)
 
+router.route('/:id')
+    .get(authUser, userController.getUserById);
+
+router.route('/:id/contacts')
+    .get(authUser, userController.getUserContacts);
+
+router.route('/:id/search')
+    .get(authUser, userController.searchUsers);
+
+router.route('/:id/remove-contact/:contactId')
+    .delete(authUser, userController.deleteUserContact);
+
+router.route('/:id/update')
+    .put(authUser, userController.updateUser);
+
 module.exports = router;

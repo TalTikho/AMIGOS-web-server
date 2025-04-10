@@ -69,4 +69,107 @@ const addContact = async (req, res) => {
     }
 };
 
-module.exports = { createUser, isUserExist, addContact };
+const getUserById = async (req, res) => {
+    // get the user by his ID from the service
+    const user = await userService.getUserById(req.params.id);
+
+    if (user == null) {
+        // if the user not exist return not found
+        return res.status(404).json({error: 'User not found'});
+    }
+    // exclude sensitive fields
+    const userObj = user.toObject();
+    delete userObj.password;
+
+    // if the user exists return the user
+    return res.status(200).json(userObj);
+};
+
+const getUserContacts = async (req, res) => {
+
+    const contactsRes = await userService.getUserContacts(req.params.id);
+
+    if (!contactsRes.success) {
+        return res.status(404).json({error: contactsRes.message});
+    }
+
+    return res.status(200).json(contactsRes.contacts);
+}
+
+const searchUsers = async (req, res) => {
+    try {
+        // get the query and the user id
+        const query = req.query.q;
+        const userId = req.params.id;
+
+        // get the result from the service
+        const result = await userService.searchUsers(query, userId);
+        if (!result.success) {
+            return res.status(400).json({ error: result.message });
+        }
+
+        // return the search
+        return res.status(200).json(result.searchResult);
+    } catch (err) {
+        return res.status(400).json({errors: parseSchemaErrors(err)});
+    }
+}
+
+const deleteUserContact = async (req, res) => {
+    const userId = req.params.id;
+    const contactId = req.params.contactId;
+
+    try {
+        // get the result from the service
+        const result = await userService.deleteUserContact(userId, contactId);
+
+        // if the remove didnt success
+        if (!result.success) {
+            return res.status(400).json({ error: result.message });
+        }
+
+        return res.status(201).json();
+    } catch (err) {
+        return res.status(400).json({errors: parseSchemaErrors(err)});
+    }
+}
+
+const updateUser = async (req, res) => {
+    // get the userId and the data
+    const userId = req.params.id;
+    const { username, email, profile_pic } = req.body;
+
+    // if there are no data
+    if (!username && !email && !profile_pic) {
+        return res.status(400).json({ error: 'No data provided to update' });
+    }
+
+    try {
+        // prepare the data
+        const updateData = {};
+        if (username) updateData.username = username;
+        if (email) updateData.email = email;
+        if (profile_pic) updateData.profile_pic = profile_pic;
+
+        // update and get the result from the service
+        const result = await userService.updateUser(userId, updateData);
+
+        // if didnt success
+        if (!result.success) {
+            return res.status(400).json({ error: result.message });
+        }
+
+        return res.status(200).json(result.user);
+    } catch (err) {
+        return res.status(400).json({errors: parseSchemaErrors(err)});
+    }
+}
+
+module.exports = { createUser,
+    isUserExist,
+    addContact,
+    getUserById,
+    getUserContacts,
+    searchUsers,
+    deleteUserContact,
+    updateUser };
