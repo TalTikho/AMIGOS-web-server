@@ -47,7 +47,7 @@ const createChat = async (req, res) => {
 // Getting all the user`s chat
 const getUserChats = async (req, res) => {
     try {
-        const userId = req.headers.user_id;
+        const userId = req.params.userId;// hanged here from headers
         const chats = await chatService.getUserChats(userId);
         return res.status(200).json(chats);
     } catch (err) {
@@ -72,7 +72,7 @@ const getChatById = async (req, res) => {
 // Updating the wanted chat
 const updateChat = async (req, res) => {
     try {
-        const chat = await chatService.updateChat(req.params.chatId, req.body);// updating the chat
+        const chat = await chatService.updateChat(req.params.chatId,req.params.userId, req.body);// updating the chat, added user to verify update for available chat 
 
         if (!chat.success) {
             return res.status(404).json({ error: chat.message })// couldnt update
@@ -86,7 +86,7 @@ const updateChat = async (req, res) => {
 // Adding new member to the chat
 const addMember = async (req, res) => {
     try {
-        const result = await chatService.addMember(req.params.chatId, req.params.userId);// adding new member to the chat
+        const result = await chatService.addMember(req.params.chatId, req.params.userMemberId, req.params.userId);// adding new member to the chat
 
         if (!result.success) {
             return res.status(400).json({ error: result.message })// couldnt add
@@ -101,7 +101,7 @@ const addMember = async (req, res) => {
 //Adding new manager to the manager array
 const addManager = async (req, res) => {
     try {
-        const result = await chatService.addManager(req.params.chatId, req.params.userId);// adding new member to the chat
+        const result = await chatService.addManager(req.params.chatId, req.params.managerId, req.params.userId);// adding new member to the chat
 
         if (!result.success) {
             return res.status(400).json({ error: result.message })// couldnt add
@@ -116,7 +116,7 @@ const addManager = async (req, res) => {
 // Removing a member from the chat
 const removeMember = async (req, res) => {
     try {
-        const result = await chatService.removeMember(req.params.chatId, req.params.userId);// removing a member from the chat
+        const result = await chatService.removeMember(req.params.chatId, req.params.managerId, req.params.userId);// removing a member from the chat only for managers
 
         if (!result.success) {
             return res.status(404).json({ error: result.message })// couldnt remove
@@ -131,7 +131,7 @@ const removeMember = async (req, res) => {
 // Remove manager
 const removeManager = async (req, res) => {
     try {
-        const result = await chatService.removeManager(req.params.chatId, req.params.userId);// removing a member from the chat
+        const result = await chatService.removeManager(req.params.chatId, req.params.managerId, req.params.userId);// removing a member from the chat
 
         if (!result.success) {
             return res.status(404).json({ error: result.message })// couldnt remove
@@ -146,7 +146,7 @@ const removeManager = async (req, res) => {
 // Leaving a chat
 const leaveChat = async (req, res) => {
     try {
-        const userId = req.headers.user_id;
+        const userId = req.params.userId;// changed here from headers
         const result = await chatService.leaveChat(req.params.chatId, userId);// leaving chosen chat
 
         if (!result.success) {
@@ -162,7 +162,7 @@ const leaveChat = async (req, res) => {
 // Deleting a chat
 const deleteChat = async (req, res) => {
     try {
-        const result = await chatService.deleteChat(req.params.chatId);// deleting chat
+        const result = await chatService.deleteChat(req.params.chatId, req.params.userId);// deleting chat
 
         if (!result.success) {
             return res.status(404).json({ error: result.message })// couldnt delete
