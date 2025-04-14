@@ -62,11 +62,22 @@ const getChatById = async (chatId) => {
 };
 
 // Updating chat
-const updateChat = async (chatId, updates) => {
+const updateChat = async (chatId, userId, updates) => {
     try {
         const chat = await Chat.findById(chatId);
+        const user = await User.findById(userId);
+
         if (!chat) {
             return { success: false, message: 'Chat not found' };
+        }
+
+        if (!user) {
+            return { success: false, message: 'User not found' };
+        }
+
+        // check if a member
+        if (!chat.members.some(memberId => memberId.toString() === userId)) {
+            return { success: false, message: 'User not a member' };
         }
 
         // Update fields only if they were provided
@@ -99,7 +110,7 @@ const updateChat = async (chatId, updates) => {
 };
 
 // Adding a member to a chat
-const addMember = async (chatId, userId) => {
+const addMember = async (chatId, userMemberId, userId) => {
     // did not get chatId or userId
     if (!chatId || !userId) {
         return { success: false, message: 'Missing chatId or userId' };
@@ -107,6 +118,8 @@ const addMember = async (chatId, userId) => {
     try {
         const user = await User.findById(userId);// searching for the user
         const chat = await Chat.findById(chatId);// searching for the chat
+        const userMember = await User.findById(userMemberId);// searching for the user
+
 
         // check if user or chat exist
         if (!user) {
@@ -115,6 +128,15 @@ const addMember = async (chatId, userId) => {
         
         if (!chat) {
             return { success: false, message: 'Chat not found' };
+        }
+
+        if (!userMember) {
+            return { success: false, message: 'User (member) not found' };
+        }
+
+        // check if userMember is a member
+        if (!chat.members.some(memberId => memberId.toString() === userMemberId)) {
+            return { success: false, message: 'User (member) is not a member' };
         }
 
         // check if already a member
@@ -137,7 +159,7 @@ const addMember = async (chatId, userId) => {
 };
 
 // Addin new manager to the managers array
-const addManager = async (chatId, userId) => {
+const addManager = async (chatId, managerId, userId) => {
     // did not get chatId or userId
     if (!chatId || !userId) {
         return { success: false, message: 'Missing chatId or userId' };
@@ -145,17 +167,28 @@ const addManager = async (chatId, userId) => {
     try {
         const user = await User.findById(userId);// searching for the user
         const chat = await Chat.findById(chatId);// searching for the chat
+        const manager = await User.findById(managerId);// searching for the user
+
 
         // check if user or chat exist
         if (!user) {
             return { success: false, message: 'User not found' };
         }
         
+        if (!manager) {
+            return { success: false, message: 'Manager (user) not found' };
+        }
+
         if (!chat) {
             return { success: false, message: 'Chat not found' };
         }
 
-        // check if already a manager
+        // convert objectId to string for comparison to check we actually got manager tot remove someone
+        if (!chat.manager.some(manager => manager.toString() === managerId.toString())) {
+            return { success: false, message: 'User entered as managerId is not a manager' };
+        }
+
+        // check if user enterd is already a manager
         if (chat.manager.some(managerId => managerId.toString() === userId.toString())) {
             return { success: false, message: 'User already a manager' };
         }
@@ -180,7 +213,7 @@ const addManager = async (chatId, userId) => {
 };
 
 // Removing a member
-const removeMember = async (chatId, userId) => {
+const removeMember = async (chatId, managerId, userId) => {
     // check if chatId or userId are missing
     if (!chatId || !userId) {
         return { success: false, message: 'Missing chatId or userId' };
@@ -188,10 +221,31 @@ const removeMember = async (chatId, userId) => {
 
     try {
         const chat = await Chat.findById(chatId); // searching for the chat
+        const manager = await User.findById(managerId);
+        const user = await User.findById(userId);
+
 
         // did not found the chat
         if (!chat) {
             return { success: false, message: 'Chat not found' };
+        }
+
+        if (!manager) {
+            return { success: false, message: 'Manager (user) not found' };
+        }
+
+        if (!user) {
+            return { success: false, message: 'User not found' };
+        }
+
+        // convert objectId to string for comparison to check we actually got manager tot remove someone
+        if (!chat.manager.some(manager => manager.toString() === managerId.toString())) {
+            return { success: false, message: 'User entered as managerId is not a manager' };
+        }
+
+        //checking of manager wants to remove Himself
+        if(managerId === userId) {
+            return {success: false, message: 'you cant remove yourself from a group, you can leave'}
         }
 
         // convert objectId to string for comparison
@@ -216,7 +270,7 @@ const removeMember = async (chatId, userId) => {
 };
 
 //Remove manager from the array of managers
-const removeManager = async (chatId, userId) => {
+const removeManager = async (chatId, managerId, userId) => {
     // check if chatId or userId are missing
     if (!chatId || !userId) {
         return { success: false, message: 'Missing chatId or userId' };
@@ -224,10 +278,31 @@ const removeManager = async (chatId, userId) => {
 
     try {
         const chat = await Chat.findById(chatId); // searching for the chat
+        const user = await User.findById(userId);// searching for the user
+        const manager = await User.findById(managerId);// searching for the manager in users
+
 
         // did not found the chat
         if (!chat) {
             return { success: false, message: 'Chat not found' };
+        }
+
+        if (!user) {
+            return { success: false, message: 'User not found' };
+        }
+
+        if (!manager) {
+            return { success: false, message: 'Manager (user) not found' };
+        }
+
+        // convert objectId to string for comparison to check if manager is actually a manager
+        if (!chat.manager.some(manager => manager.toString() === managerId.toString())) {
+            return { success: false, message: 'User (as managerId) is not a manager' };
+        }
+        
+        //checking of want to remove himself
+        if(managerId === userId) {
+            return { success: false, message: 'You cant remove yourself, you can leave' };
         }
 
         // convert objectId to string for comparison
@@ -255,36 +330,41 @@ const removeManager = async (chatId, userId) => {
 const leaveChat = async (chatId, userId) => {
     try {
         const chat = await Chat.findById(chatId);
+        const user = await User.findById(userId);
         
         // check if chat exists
         if (!chat) {
             return { success: false, message: 'Chat not found' };
         }
         
+        if (!user) {
+            return { success: false, message: 'User not found' };
+        }
+
         // check if user is in the chat
         if (!chat.members.some(member => member.toString() === userId.toString())) {
             return { success: false, message: 'User not in chat' };
         }
         
         // special handling for manager leaving
-        if (chat.manager.toString() === userId.toString()) {
+        if (chat.manager.some(manager => manager.toString() === userId.toString())) {
             // if this user is the manager, we need to assign a new manager
             // Remove the user from members first
             chat.members = chat.members.filter(member => member.toString() !== userId.toString());
             
-            // if there are still members left, assign the first one as the new manager
-            if (chat.members.length > 0) {
+            // if there are still members left, and only one manager, assign the first one as the new manager
+            if (chat.members.length > 0 && chat.manager.length === 1) {
                 chat.manager = chat.members[0];
                 await chat.save();
                 return { success: true, message: 'Left chat and manager role transferred' };
-            } else {
+            } else if (chat.members.length === 0) {
                 // if no members left, you might want to delete the chat or handle differently
                 await Chat.findByIdAndDelete(chatId);
                 return { success: true, message: 'Left chat and chat was deleted (no members left)' };
             }
         } else {
-            // if not the manager, use the regular removeMember function
-            return await removeMember(chatId, userId);
+            // if not the manager, use the regular removeMember function with first manager for function needs
+            return await removeMember(chatId, chat.manager[0] ,userId);
         }
     } catch (error) {
         // handle invalid ID format errors
@@ -298,21 +378,32 @@ const leaveChat = async (chatId, userId) => {
 };
 
 // Deleting 
-const deleteChat = async (chatId) => {
+const deleteChat = async (chatId, userId) => {
     // check if chatId is missing entirely
-    if (!chatId) {
+    if (!chatId || !userId) {
         return { success: false, message: 'Missing chatId' };
     }
 
     try {
         const chat = await Chat.findById(chatId); // searching for the chat
+        const user = await User.findById(userId); // searching for the user
+
         
         // did not find the chat
         if (!chat) {
             return { success: false, message: 'Chat not found' };
         }
 
-        await Chat.findByIdAndDelete(chatId); // deleting the chat
+        if (!user) {
+            return { success: false, message: 'User not found' };
+        }
+
+        // check if user is in the chat
+        if (!chat.members.some(member => member.toString() === userId.toString())) {
+            return { success: false, message: 'User not in chat' };
+        }
+
+        await leaveChat(chatId,userId); // deleting the chat (more like leaving the chat)
         return { success: true, message: 'Chat deleted successfully' };
     } catch (error) {
         // handle invalid ID format errors
