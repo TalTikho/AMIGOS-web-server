@@ -1,0 +1,27 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: amigos-web-server-app
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - MONGO_URI=${MONGODB_URI}
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
