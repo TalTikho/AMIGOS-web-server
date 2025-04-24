@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+/**
+ * User Model - Represents user
+ * Used for storing all the needed variables for creating user
+ */
 const passwordValidator = (password) => {
     if (password.length < 6) return false;
     if (password.includes(' ')) return false;

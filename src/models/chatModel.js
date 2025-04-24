@@ -1,4 +1,9 @@
 const mongoose = require("mongoose");
+
+/**
+ * Chat Model - Represents chat 
+ * Used for all the chat info- members, managers, messages and so 
+ */
 const chatModel = new mongoose.Schema({
     name:
     { 

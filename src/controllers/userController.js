@@ -3,6 +3,14 @@ const {parseSchemaErrors} = require("../utils/errorUtils");
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
 
+/**
+ * Creating user
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {body} body - all of what we insert to the user
+ * @returns {Object} JSON response with new user (success) or error
+ */
 const createUser = async (req, res) => {
     try {
         // create the user using the user service
@@ -20,6 +28,14 @@ const createUser = async (req, res) => {
     }
 }
 
+/**
+ * Checking if user exists
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {body} body - all of what we search to find the specific user
+ * @returns {Object} JSON response with users token (success) or error
+ */
 const isUserExist = async (req, res) => {
     // get the username or email and password
     const username = req.body.username;
@@ -41,9 +57,18 @@ const isUserExist = async (req, res) => {
     return res.status(200).json({token});
 }
 
+/**
+ * Adding new contact 
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {String} contactId - the contact id we want to add 
+ * @param {String} userId - the user id of the user 
+ * @returns {Object} JSON response with message (success) or error
+ */
 const addContact = async (req, res) => {
     const contactId = req.params.contactId; // get the contact id from the params
-    const userId = req.headers.user_id; // get the user id from the header
+    const userId = req.params.userId; // get the user id from the params CHANGED FROM HEADER
 
     // if didnt get something
     if (!userId) {
@@ -69,6 +94,14 @@ const addContact = async (req, res) => {
     }
 };
 
+/**
+ * eting the wanted user by id 
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {String} userId - the user id of the user 
+ * @returns {Object} JSON response with message (success) or error
+ */
 const getUserById = async (req, res) => {
     // get the user by his ID from the service
     const user = await userService.getUserById(req.params.id);
@@ -85,6 +118,14 @@ const getUserById = async (req, res) => {
     return res.status(200).json(userObj);
 };
 
+/**
+ * Geting all the contacts for user 
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {String} userId - the user id of the user 
+ * @returns {Object} JSON response with message (success) or error
+ */
 const getUserContacts = async (req, res) => {
 
     const contactsRes = await userService.getUserContacts(req.params.id);
@@ -96,6 +137,15 @@ const getUserContacts = async (req, res) => {
     return res.status(200).json(contactsRes.contacts);
 }
 
+/**
+ * Searching for user
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {String} userId - the user id of the user 
+ * @param {query} query - the query of the user 
+ * @returns {Object} JSON response with message (success) or error
+ */
 const searchUsers = async (req, res) => {
     try {
         // get the query and the user id
@@ -115,6 +165,15 @@ const searchUsers = async (req, res) => {
     }
 }
 
+/**
+ * Deleting contact for user
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {String} userId - the user id of the user 
+ * @param {String} contactId - the contact we want to delete 
+ * @returns {Object} JSON response with nothing (success) or error
+ */
 const deleteUserContact = async (req, res) => {
     const userId = req.params.id;
     const contactId = req.params.contactId;
@@ -134,6 +193,15 @@ const deleteUserContact = async (req, res) => {
     }
 }
 
+/**
+ * Updating info for user
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {String} userId - the user id of the user 
+ * @param {Body} body - the body with all the info we want to update 
+ * @returns {Object} JSON response with nothing (success) or error
+ */
 const updateUser = async (req, res) => {
     // get the userId and the data
     const userId = req.params.id;

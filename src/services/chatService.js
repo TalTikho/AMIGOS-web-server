@@ -1,7 +1,12 @@
 const Chat = require('../models/chatModel');
 const User = require('../models/userModel');
 
-// Creating the chat
+/**
+ * Creating the chat
+ * getting all the parameters for the creation of nw chat
+ * 
+ * @returns {Object} Result with success or error message
+ */
 const createChat = async (name, description, is_group, manager, messages, members, createdAt, photo) => {
 
     const chat = new Chat({
@@ -17,7 +22,12 @@ const createChat = async (name, description, is_group, manager, messages, member
     return await chat.save();
 }
 
-// Returning all the chats for user
+/**
+ * Getting all the chats for user
+ * 
+ * @param {String} userId - ID of user making the request
+ * @returns {Object} Result with all the chats the user is part of or error message
+ */
 const getUserChats = async (userId) => {
     try {
         return await Chat.find({ members: userId }); // searching for the chat
@@ -32,7 +42,12 @@ const getUserChats = async (userId) => {
     }
 };
 
-// Returning wanted chat for user
+/**
+ * Getting the wanted chat for user
+ * 
+ * @param {String} userId - ID of user making the request
+ * @returns {String} Result with the chat the user searched for or error message
+ */
 const getChatById = async (chatId) => {
     // if didn't get the chat id
     if (!chatId || chatId === "") {
@@ -61,7 +76,14 @@ const getChatById = async (chatId) => {
     }
 };
 
-// Updating chat
+/**
+ * Updating a chat
+ * 
+ * @param {String} chatId - ID of chat
+ * @param {String} userId - ID of user making the request
+ * @param {Body} updates - the field we want to update
+ * @returns {String} Result with the updated chat the user wanted to update or error message
+ */
 const updateChat = async (chatId, userId, updates) => {
     try {
         const chat = await Chat.findById(chatId);
@@ -95,7 +117,7 @@ const updateChat = async (chatId, userId, updates) => {
             }
         }
 
-        await chat.save(); // Step 3: Save the changes
+        await chat.save();
 
         return { success: true, message: 'Chat updated successfully' };
     } catch (error) {
@@ -109,7 +131,14 @@ const updateChat = async (chatId, userId, updates) => {
     }
 };
 
-// Adding a member to a chat
+/**
+ * Adding a member to a chat
+ * 
+ * @param {String} chatId - ID of chat
+ * @param {String} userId - ID of user we want to add to the members array
+ * @param {String} userMemberId - Id of the member that wants to add a member
+ * @returns {String} Result with the updated members array or error message
+ */
 const addMember = async (chatId, userMemberId, userId) => {
     // did not get chatId or userId
     if (!chatId || !userId) {
@@ -158,7 +187,14 @@ const addMember = async (chatId, userMemberId, userId) => {
     }
 };
 
-// Addin new manager to the managers array
+/**
+ * Adding a manager to the managers array
+ * 
+ * @param {String} chatId - ID of chat
+ * @param {String} userId - ID of user we want to add to the managers array
+ * @param {String} managerId - Id of the manager that wants to add a manager
+ * @returns {String} Result with the updated managers array or error message
+ */
 const addManager = async (chatId, managerId, userId) => {
     // did not get chatId or userId
     if (!chatId || !userId) {
@@ -212,7 +248,14 @@ const addManager = async (chatId, managerId, userId) => {
     }
 };
 
-// Removing a member
+/**
+ * Removing a member from a chat
+ * 
+ * @param {String} chatId - ID of chat
+ * @param {String} userId - ID of user we want to remove from the members array
+ * @param {String} managerId - Id of the manager that wants to remove a member
+ * @returns {String} Result with the updated members array or error message
+ */
 const removeMember = async (chatId, managerId, userId) => {
     // check if chatId or userId are missing
     if (!chatId || !userId) {
@@ -269,7 +312,15 @@ const removeMember = async (chatId, managerId, userId) => {
     }
 };
 
-//Remove manager from the array of managers
+/**
+ * Removing a manager to the managers array
+ * also checkingif the user was the only manager and updating accordingly
+ * 
+ * @param {String} chatId - ID of chat
+ * @param {String} userId - ID of user we want to remove from the managers array
+ * @param {String} managerId - Id of the manager that wants to remove a manager
+ * @returns {String} Result with the updated managers array or error message
+ */
 const removeManager = async (chatId, managerId, userId) => {
     // check if chatId or userId are missing
     if (!chatId || !userId) {
@@ -326,7 +377,13 @@ const removeManager = async (chatId, managerId, userId) => {
     }
 };
 
-// Leaving a chat according to user
+/**
+ * Leaving a chat according to user
+ * 
+ * @param {String} chatId - ID of chat we want to leave
+ * @param {String} userId - ID of user who wants to leave
+ * @returns {String} Result with the updated managers & members array or error message
+ */
 const leaveChat = async (chatId, userId) => {
     try {
         const chat = await Chat.findById(chatId);
@@ -377,7 +434,13 @@ const leaveChat = async (chatId, userId) => {
     }
 };
 
-// Deleting 
+/**
+ * Deleting a chat according to user
+ * 
+ * @param {String} chatId - ID of chat we want to delete
+ * @param {String} userId - ID of user who wants to delte the chat
+ * @returns {String} Result with the updated managers & members array or error message
+ */
 const deleteChat = async (chatId, userId) => {
     // check if chatId is missing entirely
     if (!chatId || !userId) {

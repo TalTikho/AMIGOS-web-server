@@ -1,6 +1,11 @@
 const User = require('../models/userModel');
 
-// create the user
+/**
+ * Create the user
+ * getting all the parameters for the creation of new user
+ * 
+ * @returns {Object} Result with success or error message
+ */
 const createUser = async (username, password, email, profile_pic, status) => {
     const user = new User({
         username,
@@ -14,6 +19,14 @@ const createUser = async (username, password, email, profile_pic, status) => {
     return await user.save();
 };
 
+/**
+ * Checking if the user exist
+ * 
+ * @param {String} username - username of the user
+ * @param {String} email - email of the user
+ * @param {String} password - password of user making the request
+ * @returns {Object} Result with success status or error message
+ */
 const isUserExist = async (username, email, password) => {
     // if didn't get the username or the error
     if ((!username && !email) || !password) {
@@ -39,6 +52,14 @@ const isUserExist = async (username, email, password) => {
     }
 }
 
+/**
+ * Getting the wanted user
+ * 
+ * @param {String} username - username of the user
+ * @param {String} email - email of the user
+ * @param {String} password - password of user making the request
+ * @returns {Object} Result with success status or error message
+ */
 const getUser = async (username, email, password) => {
     try {
         // try to find the user
@@ -60,6 +81,12 @@ const getUser = async (username, email, password) => {
     }
 };
 
+/**
+ * Getting the wanted user by ID
+ * 
+ * @param {String} userId - username of the user
+ * @returns {Object} Result with user or error message
+ */
 const getUserById = async (userId) => {
     try {
         // try to get the user by the id
@@ -75,6 +102,13 @@ const getUserById = async (userId) => {
     }
 };
 
+/**
+ * Adding contact 
+ * 
+ * @param {String} userId - Id of the user
+ * @param {String} contactId - Id of the contact we want to add
+ * @returns {Object} Result with success message or error message
+ */
 const addContact = async (userId, contactId) => {
     if (!userId || !contactId) {
         return { success: false, message: 'Missing userId or contactId' };
@@ -106,6 +140,12 @@ const addContact = async (userId, contactId) => {
     }
 };
 
+/**
+ * Getting all the contact for a user 
+ * 
+ * @param {String} userId - Id of the user
+ * @returns {Object} Result with contacts or error message
+ */
 const getUserContacts = async (userId) => {
     if (!userId) {
         return { success: false, message: 'Missing userId' };
@@ -124,6 +164,13 @@ const getUserContacts = async (userId) => {
     }
 }
 
+/**
+ * Searching for user 
+ * 
+ * @param {String} userId - Id of the user
+ * @param {String} query - query of the search
+ * @returns {Object} Result user or error message
+ */
 const searchUsers = async (query, userId) => {
     // if query is empty
     if (!query) {
@@ -151,6 +198,13 @@ const searchUsers = async (query, userId) => {
     }
 }
 
+/**
+ * Deleting a contact 
+ * 
+ * @param {String} userId - Id of the user
+ * @param {String} contactId - Id of the contact we want to delete
+ * @returns {Object} Result with success message or error message
+ */
 const deleteUserContact = async (userId, contactId) => {
     // if one of the id are provided
     if (!userId || !contactId) {
@@ -191,6 +245,13 @@ const deleteUserContact = async (userId, contactId) => {
     }
 }
 
+/**
+ * Adding contact 
+ * 
+ * @param {String} userId - Id of the user
+ * @param {String} updateData - the content we want to update
+ * @returns {Object} Result with updated user info or error message
+ */
 const updateUser = async (userId, updateData) => {
     try {
         // Get the user from the database (Mongoose document)

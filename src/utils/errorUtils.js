@@ -1,3 +1,9 @@
+/**
+ * Getting the error
+ * 
+ * @param {Object} err - the error we get
+ * @returns message of the error
+ */
 const parseSchemaErrors = (err) => {
     let errors = [];
     if (err.name === 'ValidationError') {
