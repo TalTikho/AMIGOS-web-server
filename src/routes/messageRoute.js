@@ -1,29 +1,15 @@
-const express = require('express'); // import Express framework
-const router = express.Router(); // create a router instance
-const messageController = require('../controllers/messageController'); // import message controller
+const express = require('express'); 
+const router = express.Router(); 
+const messageController = require('../controllers/messageController');
 const { authUser } = require('../controllers/authController');
-// const multer = require('multer'); // import multer for file upload handling
-
-// // Configure multer for file uploads
-// const storage = multer.memoryStorage(); // store files in memory temporarily
-// const upload = multer({ 
-//   storage, // Use the memory storage
-//   limits: { fileSize: 10 * 1024 * 1024 }, // 10MB file size limit
-//   fileFilter: (req, file, cb) => {
-//     // Optional: Add file type restrictions here
-//     // Example: if you only want to allow images
-//     /*
-//     if (!file.mimetype.startsWith('image/')) {
-//       return cb(new Error('Only image files are allowed!'), false);
-//     }
-//     */
-//     cb(null, true); // Accept all file types for now
-//   }
-// });
 
 // Send a new message (supports media upload)
 router.route('/:chatId/send/:userId')
-  .post(authUser, messageController.sendMessage);// between we removed , upload.single('media')
+  .post(authUser, messageController.sendMessage);
+
+// Send a media message (with file upload)
+router.route('/media/:chatId/:userId')
+    .post(authUser, messageController.uploadSingle, messageController.sendMediaMessage);
 
 // Get all messages in a chat
 router.route('/:chatId/chat/:userId')

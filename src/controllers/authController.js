@@ -21,6 +21,14 @@ const User = require('../models/userModel');
 //     next();
 // }
 
+/**
+ * Authentication
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Object} next 
+ * @returns answer for authentiaction
+ */
 const authUser = async (req, res, next) => {
     const userId = req.headers.user_id;
 

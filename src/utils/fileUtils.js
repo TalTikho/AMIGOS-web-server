@@ -12,7 +12,13 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// function to upload media files
+/**
+ * Saving inserted file with the message
+ * function to upload media files
+ * 
+ * @param {Object} file - the file we want to store
+ * @returns the filename and url that describes where the file was saved
+ */
 const uploadMedia = async (file) => {
   try {
     // generate unique filename to prevent overwrites
@@ -32,7 +38,14 @@ const uploadMedia = async (file) => {
     return { success: false, message: 'Failed to upload file' };
   }
 };
-// Delete a file to handle the file removal
+
+/**
+ * Deleting a file (when deleting a message)
+ * Delete a file to handle the file removal
+ * 
+ * @param {String} mediaUrl - url of the location where wee saved the file
+ * @returns 
+ */
 const deleteFileFromStorage = async (mediaUrl) => {
   if (!mediaUrl) return;
   

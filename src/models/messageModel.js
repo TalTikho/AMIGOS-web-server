@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 
+/**
+ * Message Model - Represents stored message & files (images, videos, documents)
+ * Used for storing messages
+ */
 const messageModel = new mongoose.Schema(
     {
         chatId: {

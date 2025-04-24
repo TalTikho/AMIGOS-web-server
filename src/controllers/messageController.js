@@ -1,42 +1,24 @@
 const messageService = require('../services/messageService');
-//const { uploadMedia } = require('../utils/fileUtils'); // import utility for handling file uploads
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
 
-// Create new message (send)
+/**
+ * Create new message (send)
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} JSON response with new message result or error
+ */
 const sendMessage = async (req, res) => {
   try {
     const text  = req.body.text;
     const chatId = req.params.chatId;
     const userId = req.params.userId;
     
-    // // initialize media variables
-    // let mediaType = 'none'; // default to no media
-    // let mediaUrl = ''; // default empty URL
-    // let fileName = ''; // default empty filename
-    
-    // // handle file upload if present in request
-    // if (req.body.file) {
-    //   // upload the file using utility function
-    //   const uploadResult = await uploadMedia(req.file);
-    //   mediaUrl = uploadResult.url; // get URL of uploaded file
-    //   fileName = req.file.originalname; // save original filename
-      
-    //   // determine media type based on file mimetype
-    //   if (req.file.mimetype.startsWith('image/')) {
-    //     mediaType = 'image'; // image files
-    //   } else if (req.file.mimetype.startsWith('video/')) {
-    //     mediaType = 'video'; // video files
-    //   } else {
-    //     mediaType = 'file'; // other file types
-    //   }
-    // }
-    
     const result = await messageService.sendMessage(
       chatId, 
       userId, 
-      text, 
-      // mediaType, 
-      // mediaUrl, 
-      // fileName
+      text
     );
     
     // handle service errors
@@ -51,7 +33,51 @@ const sendMessage = async (req, res) => {
   }
 };
 
-// Get all messages in chat
+/**
+ * Create a new message with media attachment
+ * Uses multer middleware to handle file upload
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} JSON response with new message result or error
+ */
+const sendMediaMessage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'No file uploaded' });
+    }
+    
+    const text = req.body.text || '';
+    const chatId = req.params.chatId;
+    const userId = req.params.userId;
+    
+    const result = await messageService.sendMediaMessage(
+      chatId,
+      userId,
+      text,
+      req.file
+    );
+    
+    if (!result.success) {
+      return res.status(400).json(result);
+    }
+    
+    return res.status(201).json(result);
+  } catch (error) {
+    console.error('Controller error sending media message:', error);
+    return res.status(500).json({ success: false, message: 'Server error sending media message' });
+  }
+};
+
+/**
+ * Get all messages in chat
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {String} chatId - the chat id
+ * @param {String} userId - the user id
+ * @returns {Object} JSON response with nothing (success) or error
+ */
 const getChatMessages = async (req, res) => {
   try {
     const chatId  = req.params.chatId;
@@ -71,7 +97,15 @@ const getChatMessages = async (req, res) => {
   }
 };
 
-// Edit message
+/**
+ * Edit message
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {String} messageId - the message id of the message we want to update
+ * @param {String} userId - the user id to verify the message belongs to the user
+ * @returns {Object} JSON response with result (success) or error
+ */
 const editMessage = async (req, res) => {
   try {
     const  messageId  = req.params.messageId;
@@ -91,7 +125,16 @@ const editMessage = async (req, res) => {
   }
 };
 
-// Delete message (from here we will use delete file, cuase its an additional method in delete message)
+/**
+ * Delete message 
+ * (from here we will use delete file, cause its an additional method in delete message)
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {String} messageId - the message id of the message we want to delete
+ * @param {String} userId - the user id to verify the message belongs to the user
+ * @returns {Object} JSON response with result (success) or error
+ */
 const deleteMessage = async (req, res) => {
   try {
     const messageId = req.params.messageId;
@@ -110,7 +153,15 @@ const deleteMessage = async (req, res) => {
   }
 };
 
-// Mark message as seen
+/**
+ * Mark message as seen
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {String} messageId - the message id of the message we want to mark as seen
+ * @param {String} userId - the user id to verify the message belongs to the user
+ * @returns {Object} JSON response with result (success) or error
+ */
 const markMessageAsSeen = async (req, res) => {
   try {
     const messageId = req.params.messageId;
@@ -129,7 +180,16 @@ const markMessageAsSeen = async (req, res) => {
   }
 };
 
-// Get unread message
+/**
+ * Get unread message
+ * returning all the unread messages
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {String} chatId - the chat id of the message we want to read
+ * @param {String} userId - the user id to verify the unread messages that belong to the user
+ * @returns {Object} JSON response with result (success) or error
+ */
 const getUnreadMessages = async (req, res) => {
   try {
     const chatId = req.params.chatId;
@@ -149,7 +209,9 @@ const getUnreadMessages = async (req, res) => {
 };
 
 module.exports = {
+  uploadSingle : upload.single('file'), // Multer middleware for file upload
   sendMessage,
+  sendMediaMessage, // for media upload
   getChatMessages,
   editMessage,
   deleteMessage,
