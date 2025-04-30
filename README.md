@@ -11,7 +11,7 @@ This is the backend server for the **AMIGOS** chat application.
 ---
 
 ## 🔗 Links
-- [🧩 Amigos Web Repository](https://github.com/TalTikho/AMIGOS-Web) 
+- [🧩 Amigos Web Repository](https://github.com/TalTikho/amigos-web) 
 - 🗺️ [UML Diagram (Live View)](https://tinyurl.com/4xwxzh95)
 
 ---
@@ -140,7 +140,7 @@ Helper functions that are used across the application to avoid code duplication.
 - **Controllers** ➡️ Use Services ➡️ Use Models
 - **Routes** ➡️ Direct requests to Controllers
 
-📎[Full view of the diagram](https://tinyurl.com/4xwxzh95)
+📎[Full view of the diagram](https://tinyurl.com/46nr7pzf)
 </details>
 
 
