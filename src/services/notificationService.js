@@ -27,7 +27,6 @@ const createNotification = async (recipientId, content, type, relatedTo, onModel
         if (error.name === 'CastError' || error.kind === 'ObjectId') {
             return { success: false, message: 'Invalid userId format' };
         }
-        console.error("Error in create notification:", error);
         return { success: false, message: 'Failed to create notification: ' + error.message };
     }
 }
@@ -43,7 +42,6 @@ const getUserNotifications = async (userId) => {
             return { success: false, message: 'Invalid userId format' };
         }
 
-        console.error("Error in get user notifications:", error);
         return { success: false, message: 'Failed to get notifications: ' + error.message };
     }
 };
@@ -66,7 +64,6 @@ const getUnreadCount = async (userId) => {
             return { success: false, message: 'Invalid userId format' };
         }
         
-        console.error("Error in get unread count:", error);
         return { success: false, message: 'Failed to get unread count: ' + error.message };
     }
 };
@@ -113,7 +110,6 @@ const markAsRead = async (notificationId, userId) => {
             return { success: false, message: 'Invalid notificationId or userId format' };
         }
     
-        console.error("Error in mark as read:", error);
         return { success: false, message: 'Failed to mark notification as read: ' + error.message };
     }
 };
@@ -151,7 +147,6 @@ const deleteNotification = async (notificationId, userId) => {
             return { success: false, message: 'Invalid notificationId or userId format' };
         }
         
-        console.error("Error in delete notification:", error);
         return { success: false, message: 'Failed to delete notification: ' + error.message };
     }
 };
@@ -189,7 +184,6 @@ const markAllAsRead = async (userId) => {
             return { success: false, message: 'Invalid userId format' };
         }
         
-        console.error("Error in mark all as read:", error);
         return { success: false, message: 'Failed to mark all notifications as read: ' + error.message };
     }
 };

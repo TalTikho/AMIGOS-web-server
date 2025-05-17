@@ -12,7 +12,6 @@ const getUserNotifications = async (req, res) => {
         
         return res.status(200).json(result);
     } catch (error) {
-        console.error("Error in get user notifications controller:", error);
         return res.status(500).json({ success: false, message: 'Server error: ' + error.message });
     }
 };
@@ -36,8 +35,7 @@ const createNotification = async (req, res) => {
         
         return res.status(201).json(result);
     } catch (error) {
-        console.error("Error in create notification controller:", error);
-        return res.status(500).json({ 
+        return res.status(500).json({
             success: false, 
             message: 'Server error: ' + error.message 
         });
@@ -57,7 +55,6 @@ const markAsRead = async (req, res) => {
         
         return res.status(200).json(result);
     } catch (error) {
-        console.error("Error in mark as read controller:", error);
         return res.status(500).json({ success: false, message: 'Server error: ' + error.message });
     }
 };
@@ -75,7 +72,6 @@ const deleteNotification = async (req, res) => {
         
         return res.status(200).json(result);
     } catch (error) {
-        console.error("Error in delete notification controller:", error);
         return res.status(500).json({ success: false, message: 'Server error: ' + error.message });
     }
 };
@@ -92,7 +88,6 @@ const markAllAsRead = async (req, res) => {
         
         return res.status(200).json(result);
     } catch (error) {
-        console.error("Error in mark all as read controller:", error);
         return res.status(500).json({ success: false, message: 'Server error: ' + error.message });
     }
 };
@@ -109,7 +104,6 @@ const getUnreadCount = async (req, res) => {
         
         return res.status(200).json(result);
     } catch (error) {
-        console.error("Error in get unread count controller:", error);
         return res.status(500).json({ success: false, message: 'Server error: ' + error.message });
     }
 };

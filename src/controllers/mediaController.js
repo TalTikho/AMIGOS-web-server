@@ -36,7 +36,6 @@ const uploadFile = async (req, res) => {
         
         return res.status(201).json(result);
     } catch (error) {
-        console.error("Error in upload file controller:", error);
         return res.status(500).json({ success: false, message: 'Server error: ' + error.message });
     }
 };
@@ -61,7 +60,6 @@ const getMediaById = async (req, res) => {
         
         return res.status(200).json(result);
     } catch (error) {
-        console.error("Error in get media by ID controller:", error);
         return res.status(500).json({ success: false, message: 'Server error: ' + error.message });
     }
 };
@@ -88,7 +86,6 @@ const downloadMedia = async (req, res) => {
         // Send file for download with original filename
         res.download(result.media.path, result.media.originalName);
     } catch (error) {
-        console.error("Error in download media controller:", error);
         return res.status(500).json({ success: false, message: 'Server error: ' + error.message });
     }
 };
@@ -123,7 +120,6 @@ const streamMedia = async (req, res) => {
         // Stream the file
         res.sendFile(path.resolve(media.path));
     } catch (error) {
-        console.error("Error in stream media controller:", error);
         return res.status(500).json({ success: false, message: 'Server error: ' + error.message });
     }
 };
@@ -147,7 +143,6 @@ const getUserMedia = async (req, res) => {
         
         return res.status(200).json(result);
     } catch (error) {
-        console.error("Error in get user media controller:", error);
         return res.status(500).json({ success: false, message: 'Server error: ' + error.message });
     }
 };
@@ -173,7 +168,6 @@ const getRelatedMedia = async (req, res) => {
         
         return res.status(200).json(result);
     } catch (error) {
-        console.error("Error in get related media controller:", error);
         return res.status(500).json({ success: false, message: 'Server error: ' + error.message });
     }
 };
@@ -198,7 +192,6 @@ const deleteMedia = async (req, res) => {
         
         return res.status(200).json(result);
     } catch (error) {
-        console.error("Error in delete media controller:", error);
         return res.status(500).json({ success: false, message: 'Server error: ' + error.message });
     }
 };
@@ -224,7 +217,6 @@ const updateMedia = async (req, res) => {
         
         return res.status(200).json(result);
     } catch (error) {
-        console.error("Error in update media controller:", error);
         return res.status(500).json({ success: false, message: 'Server error: ' + error.message });
     }
 };
@@ -250,7 +242,6 @@ const linkMediaToMessage = async (req, res) => {
         
         return res.status(200).json(result);
     } catch (error) {
-        console.error("Error in link media to message controller:", error);
         return res.status(500).json({ success: false, message: 'Server error: ' + error.message });
     }
 };

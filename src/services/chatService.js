@@ -37,7 +37,6 @@ const getUserChats = async (userId) => {
         if (error.name === 'CastError' || error.kind === 'ObjectId') {
             return { success: false, message: 'Invalid chatId or userId format' };
         }
-        console.error("Error in get user chats:", error);
         return { success: false, message: 'Failed to get the chats (error)' + error.message };
     }
 };
@@ -71,7 +70,6 @@ const getChatById = async (chatId) => {
         if (error.name === 'CastError' || error.kind === 'ObjectId') {
             return { success: false, message: 'Invalid chatId or userId format' };
         }
-        console.error("Error in get chat:", error);
         return { success: false, message: 'Failed to find the chat (error)' + error.message };
     }
 };
@@ -126,7 +124,6 @@ const updateChat = async (chatId, userId, updates) => {
         if (error.name === 'CastError' || error.kind === 'ObjectId') {
             return { success: false, message: 'Invalid chatId or userId format' };
         }
-        console.error("Error in update chat:", error);
         return { success: false, message: 'Failed to updarte the chat (error)' + error.message };
     }
 };
@@ -182,7 +179,6 @@ const addMember = async (chatId, userMemberId, userId) => {
          if (error.name === 'CastError' || error.kind === 'ObjectId') {
             return { success: false, message: 'Invalid chatId or userId format' };
         }
-        console.error("Error in adding Member:", error);
         return { success: false, message: 'Failed to add the member (error)' + error.message };
     }
 };
@@ -243,7 +239,6 @@ const addManager = async (chatId, managerId, userId) => {
          if (error.name === 'CastError' || error.kind === 'ObjectId') {
             return { success: false, message: 'Invalid chatId or userId format' };
         }
-        console.error("Error in adding Manager:", error);
         return { success: false, message: 'Failed to add the manager (error)' + error.message };
     }
 };
@@ -307,7 +302,6 @@ const removeMember = async (chatId, managerId, userId) => {
             return { success: false, message: 'Invalid chatId or userId format' };
         }
         
-        console.error("Error in removeMember:", error);
         return { success: false, message: 'Failed to remove member: ' + error.message };
     }
 };
@@ -372,7 +366,6 @@ const removeManager = async (chatId, managerId, userId) => {
             return { success: false, message: 'Invalid chatId or userId format' };
         }
         
-        console.error("Error in remove Manager:", error);
         return { success: false, message: 'Failed to remove manager: ' + error.message };
     }
 };
@@ -429,7 +422,6 @@ const leaveChat = async (chatId, userId) => {
             return { success: false, message: 'Invalid chatId or userId format' };
         }
         
-        console.error("Error in leaveChat:", error);
         return { success: false, message: 'Failed to leave chat: ' + error.message };
     }
 };
@@ -474,7 +466,6 @@ const deleteChat = async (chatId, userId) => {
             return { success: false, message: 'Invalid chatId format' };
         }
         
-        console.error("Error in deleteChat:", error);
         return { success: false, message: 'Failed to delete chat: ' + error.message };
     }
 };

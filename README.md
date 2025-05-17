@@ -56,7 +56,7 @@ This is the backend server for the **AMIGOS** chat application.
 
 4. ▶️ Run with **Docker** using the following command:   
     ```bash
-   docker-compose --env-file ./config/.env.example up app
+   docker-compose --env-file ./config/.env.example up app --build
    ```
    > ⚠️ IMPORTANT: Make sure to replace `.env.example` with the env file you created.
 

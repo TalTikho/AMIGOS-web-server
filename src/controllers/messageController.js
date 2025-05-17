@@ -25,10 +25,9 @@ const sendMessage = async (req, res) => {
     if (!result.success) {
       return res.status(400).json(result);
     }
-    
+
     return res.status(201).json(result);
   } catch (error) {
-    console.error('Controller error sending message:', error);
     return res.status(500).json({ success: false, message: 'Server error sending message'});
   }
 };
@@ -64,7 +63,6 @@ const sendMediaMessage = async (req, res) => {
     
     return res.status(201).json(result);
   } catch (error) {
-    console.error('Controller error sending media message:', error);
     return res.status(500).json({ success: false, message: 'Server error sending media message' });
   }
 };
@@ -92,7 +90,6 @@ const getChatMessages = async (req, res) => {
     
     return res.status(200).json(result);
   } catch (error) {
-    console.error('Controller error getting chat messages:', error);
     return res.status(500).json({ success: false, message: 'Server error getting chat messages' });
   }
 };
@@ -120,7 +117,6 @@ const editMessage = async (req, res) => {
     
     return res.status(200).json(result);
   } catch (error) {
-    console.error('Controller error editing message:', error);
     return res.status(500).json({ success: false, message: 'Server error editing message'});
   }
 };
@@ -148,7 +144,6 @@ const deleteMessage = async (req, res) => {
     
     return res.status(200).json(result);
   } catch (error) {
-    console.error('Controller error deleting message:', error);
     return res.status(500).json({ success: false, message: 'Server error deleting message'});
   }
 };
@@ -175,7 +170,6 @@ const markMessageAsSeen = async (req, res) => {
     
     return res.status(200).json(result);
   } catch (error) {
-    console.error('Controller error marking message as seen:', error);
     return res.status(500).json({ success: false, message: 'Server error marking message as seen'});
   }
 };
@@ -203,7 +197,6 @@ const getUnreadMessages = async (req, res) => {
     
     return res.status(200).json(result);
   } catch (error) {
-    console.error('Controller error getting unread messages:', error);
     return res.status(500).json({ success: false, message: 'Server error getting unread messages'});
   }
 };

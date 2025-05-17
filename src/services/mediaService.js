@@ -58,7 +58,6 @@ const uploadMedia = async (file, userId, relatedTo, onModel, isPublic = false) =
         if (error.name === 'CastError' || error.kind === 'ObjectId') {
             return { success: false, message: 'Invalid userId format' };
         }
-        console.error("Error in upload media:", error);
         return { success: false, message: 'Failed to upload media: ' + error.message };
     }
 };
@@ -93,7 +92,6 @@ const getMediaById = async (mediaId, userId) => {
         if (error.name === 'CastError' || error.kind === 'ObjectId') {
             return { success: false, message: 'Invalid mediaId or UserId format' };
         }
-        console.error("Error in get media by ID:", error);
         return { success: false, message: 'Failed to get media: ' + error.message };
     }
 };
@@ -119,7 +117,6 @@ const getUserMedia = async (userId) => {
         if (error.name === 'CastError' || error.kind === 'ObjectId') {
             return { success: false, message: 'Invalid userId format' };
         }
-        console.error("Error in get user media:", error);
         return { success: false, message: 'Failed to get user media: ' + error.message };
     }
 };
@@ -167,7 +164,6 @@ const getRelatedMedia = async (relatedId, onModel, userId) => {
         if (error.name === 'CastError' || error.kind === 'ObjectId') {
             return { success: false, message: 'Invalid relatedId format' };
         }
-        console.error("Error in get related media:", error);
         return { success: false, message: 'Failed to get related media: ' + error.message };
     }
 };
@@ -210,7 +206,6 @@ const deleteMedia = async (mediaId, userId) => {
         if (error.name === 'CastError' || error.kind === 'ObjectId') {
             return { success: false, message: 'Invalid mediaId format' };
         }
-        console.error("Error in delete media:", error);
         return { success: false, message: 'Failed to delete media: ' + error.message };
     }
 };
@@ -261,7 +256,6 @@ const updateMedia = async (mediaId, userId, updates) => {
         if (error.name === 'CastError' || error.kind === 'ObjectId') {
             return { success: false, message: 'Invalid mediaId format' };
         }
-        console.error("Error in update media:", error);
         return { success: false, message: 'Failed to update media: ' + error.message };
     }
 };
@@ -303,7 +297,6 @@ const linkMediaToMessage = async (mediaId, messageId, userId) => {
         if (error.name === 'CastError' || error.kind === 'ObjectId') {
             return { success: false, message: 'Invalid ID format' };
         }
-        console.error("Error linking media to message:", error);
         return { success: false, message: 'Failed to link media: ' + error.message };
     }
 };

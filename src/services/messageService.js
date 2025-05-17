@@ -59,7 +59,6 @@ const sendMessage = async (chatId, senderId, text, mediaType = 'none', mediaUrl 
       return { success: false, message: 'Invalid chatId or senderId format' };
     }
 
-    console.error("Error sending message:", error);
     return { success: false, message: 'Failed to send message: ' + error.message };
   }
 };
@@ -152,7 +151,6 @@ const sendMediaMessage = async (chatId, senderId, text, mediaFile) => {
       return { success: false, message: 'Invalid chatId or senderId format' };
     }
 
-    console.error("Error sending media message:", error);
     return { success: false, message: 'Failed to send media message: ' + error.message };
   }
 };
@@ -216,7 +214,6 @@ const getChatMessages = async (chatId, userId) => {
     if (error.name === 'CastError' || error.kind === 'ObjectId') {
       return { success: false, message: 'Invalid chatId or userId format' };
     }
-    console.error("Error getting chat messages:", error);
     return { success: false, message: 'Failed to get messages: ' + error.message };
   }
 };
@@ -272,7 +269,6 @@ const editMessage = async (messageId, userId, newText) => {
     if (error.name === 'CastError' || error.kind === 'ObjectId') {
       return { success: false, message: 'Invalid messageId or userId format' };
     }
-    console.error("Error editing message:", error);
     return { success: false, message: 'Failed to edit message: ' + error.message };
   }
 };
@@ -358,7 +354,6 @@ const deleteMessage = async (messageId, userId) => {
     if (error.name === 'CastError' || error.kind === 'ObjectId') {
       return { success: false, message: 'Invalid messageId or userId format' };
     }
-    console.error("Error deleting message:", error);
     return { success: false, message: 'Failed to delete message: ' + error.message };
   }
 };
@@ -415,7 +410,6 @@ const markMessageAsSeen = async (messageId, userId) => {
     if (error.name === 'CastError' || error.kind === 'ObjectId') {
       return { success: false, message: 'Invalid messageId or userId format' };
     }
-    console.error("Error marking message as seen:", error);
     return { success: false, message: 'Failed to mark message as seen: ' + error.message };
   }
 };
@@ -463,7 +457,6 @@ const getUnreadMessages = async (chatId, userId) => {
       return { success: false, message: 'Invalid chatId or userId format' };
     }
 
-    console.error("Error getting unread messages:", error);
     return { success: false, message: 'Failed to get unread messages: ' + error.message };
   }
 };

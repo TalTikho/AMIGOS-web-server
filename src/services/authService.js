@@ -1,7 +1,7 @@
 const User = require('../models/userModel');
 const jwt = require("jsonwebtoken");
 
-const AuthFailedMsg = "Authentication failed (provide a valid user_id header).";
+const AuthFailedMsg = "Authentication failed.";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
