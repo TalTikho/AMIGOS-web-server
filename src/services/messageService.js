@@ -186,7 +186,7 @@ const getChatMessages = async (chatId, userId) => {
     }
 
     // Get messages that aren't deleted, sorted by creation time
-    const messages = await Message.find({ chatId, isDeleted: false })
+    const messages = await Message.find({ chatId })
     .sort({ createdAt: 1 }) // sorting by creation time, oldest first
 
     // for each message with media, check if media file exists
