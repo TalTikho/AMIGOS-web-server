@@ -205,10 +205,10 @@ const deleteUserContact = async (req, res) => {
 const updateUser = async (req, res) => {
     // get the userId and the data
     const userId = req.params.id;
-    const { username, email, profile_pic } = req.body;
+    const { username, email, profile_pic, password, status } = req.body;
 
     // if there are no data
-    if (!username && !email && !profile_pic) {
+    if (!username && !email && !profile_pic && !password && !status) {
         return res.status(400).json({ error: 'No data provided to update' });
     }
 
@@ -218,6 +218,8 @@ const updateUser = async (req, res) => {
         if (username) updateData.username = username;
         if (email) updateData.email = email;
         if (profile_pic) updateData.profile_pic = profile_pic;
+        if (password) updateData.password = password;
+        if (status) updateData.status = status;
 
         // update and get the result from the service
         const result = await userService.updateUser(userId, updateData);
