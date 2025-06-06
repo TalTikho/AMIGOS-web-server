@@ -48,6 +48,10 @@ const messageModel = new mongoose.Schema(
         isDeleted: {
             type: Boolean, // flag for soft deletion
             default: false // not deleted by default
+        },
+        is_forwarded: {
+            type: Boolean,
+            default: false
         }
     });
 

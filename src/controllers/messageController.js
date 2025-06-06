@@ -12,13 +12,15 @@ const upload = multer({ storage: multer.memoryStorage() });
 const sendMessage = async (req, res) => {
   try {
     const text  = req.body.text;
+    const is_forwarded = req.body.is_forwarded;
     const chatId = req.params.chatId;
     const userId = req.params.userId;
     
     const result = await messageService.sendMessage(
       chatId, 
       userId, 
-      text
+      text,
+      is_forwarded
     );
     
     // handle service errors
@@ -47,6 +49,7 @@ const sendMediaMessage = async (req, res) => {
     }
     
     const text = req.body.text || '';
+    const is_forwarded = req.body.is_forwarded;
     const chatId = req.params.chatId;
     const userId = req.params.userId;
     
@@ -54,7 +57,8 @@ const sendMediaMessage = async (req, res) => {
       chatId,
       userId,
       text,
-      req.file
+      req.file,
+      is_forwarded
     );
     
     if (!result.success) {

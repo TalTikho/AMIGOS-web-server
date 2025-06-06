@@ -16,7 +16,7 @@ const { fileUtils } = require('../utils/fileUtils');
  * 
  * @returns {Object} Result with success or error message
  */
-const sendMessage = async (chatId, senderId, text, mediaType = 'none', mediaUrl = '', fileName = '') => {
+const sendMessage = async (chatId, senderId, text, is_forwarded, mediaType = 'none', mediaUrl = '', fileName = '') => {
   try {
     const chat = await Chat.findById(chatId); // searching for the chat
     const sender = await User.findById(senderId); // searching for the user
@@ -42,7 +42,8 @@ const sendMessage = async (chatId, senderId, text, mediaType = 'none', mediaUrl 
       mediaType,
       mediaUrl,
       fileName,
-      seenBy: [senderId] 
+      seenBy: [senderId],
+      is_forwarded: is_forwarded || false
     });
 
     // save message, its here because I first checked that the sender is actually in the chat
@@ -72,7 +73,7 @@ const sendMessage = async (chatId, senderId, text, mediaType = 'none', mediaUrl 
  * @param {Object} mediaFile - File object from multer
  * @returns {Object} Result with success status and message data
  */
-const sendMediaMessage = async (chatId, senderId, text, mediaFile) => {
+const sendMediaMessage = async (chatId, senderId, text, mediaFile, is_forwarded) => {
   try {
     const chat = await Chat.findById(chatId);
     const sender = await User.findById(senderId);
@@ -123,7 +124,8 @@ const sendMediaMessage = async (chatId, senderId, text, mediaFile) => {
       mediaType,
       mediaUrl: mediaResult.media.url,
       fileName: mediaResult.media.originalName,
-      seenBy: [senderId]
+      seenBy: [senderId],
+      is_forwarded: is_forwarded || false
     });
 
     // save message
