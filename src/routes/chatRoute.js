@@ -9,7 +9,7 @@ router.route('/')
 router.route('/:userId')
     .get(authUser, chatController.getUserChats);
 
-router.route('/:chatId')
+router.route('/get-single-chat/:chatId')
     .get(authUser, chatController.getChatById);
 
 router.route('/:chatId/update/:userId')
